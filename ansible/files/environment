@@ -1,0 +1,4 @@
+http_proxy="{{ proxy }}"
+https_proxy="{{ proxy }}"
+HTTP_PROXY="{{ proxy }}"
+HTTPS_PROXY="{{ proxy }}"
