@@ -1,11 +1,11 @@
 bigbluebutton
 =============
 
-# Deployment tools
+## Deployment tools
 
 Manifests / modules to help the deploy of BigBlueButton on Ubuntu 12.04 with either Ansible or Puppet.
 
-# Background
+## Background
 
 BigBlueButton provides multimedia conferencing services with screen/document sharing too.
 
@@ -32,9 +32,9 @@ We reviewed the instructions ( here https://code.google.com/p/bigbluebutton/wiki
 
 ## Configure BBB
 
-Surely now it works, right? If so run sudo bbb-conf --check to verify all is ready. Bounce the server and try and open the BBB service.
+After all that hacking... surely now it works, right? If so run sudo bbb-conf --check to verify all is ready. Bounce the server and try and open the BBB service.
 
-# HTTPS
+## HTTPS
 
 We needed to run the webservices over HTTPS. Again, a little hacking here.
 
