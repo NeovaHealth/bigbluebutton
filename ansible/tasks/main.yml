@@ -1,0 +1,66 @@
+- name: get bigbluebutton key
+  apt_key: url=http://ubuntu.bigbluebutton.org/bigbluebutton.asc state=present
+- name: add bigbluebutton repo
+  apt_repository: repo='deb http://ubuntu.bigbluebutton.org/lucid_dev_081 bigbluebutton-lucid main' state=present update_cache=yes
+- name: add multiverse
+  apt_repository: repo='deb http://us.archive.ubuntu.com/ubuntu lucid multiverse' state=present update_cache=yes
+
+
+- name: install deps using apt
+  apt: name={{item}} state=present
+  with_items: 
+    - git
+    - vim
+    - python-software-properties
+
+- name: get bbb openoffice stub package
+  get_url: url=http://bigbluebutton.googlecode.com/files/openoffice.org_1.0.4_all.deb dest=/tmp/openoffice.org_1.0.4_all.deb
+- name: install bbb openoffice stub package
+  apt: deb=/tmp/openoffice.org_1.0.4_all.deb
+
+- name: set hosts file
+  template: src=hosts.j2 dest=/etc/hosts
+
+- name: add libreoffice ppa
+  apt_repository: repo='ppa:libreoffice/libreoffice-4-0'
+
+- name: install libreoffice
+  apt: name={{item}} state=present
+  with_items:
+   - libreoffice-common
+   - libreoffice
+
+- name: install gems
+  script: gem_install.sh
+
+- name: get swftools deps
+  get_url: url=http://nl.archive.ubuntu.com/ubuntu/pool/main/m/mpfr/libmpfr1ldbl_2.4.2-3ubuntu1_amd64.deb dest=/tmp/libmpfr1ldbl_2.4.2-3ubuntu1_amd64.deb
+
+- name: install libmpfr1ldbl
+  apt: deb=/tmp/libmpfr1ldbl_2.4.2-3ubuntu1_amd64.deb
+
+- name: swftools
+  apt: name={{item}} state=present
+  with_items:
+  - libgmp3c2
+  - swftools-0.9.1
+
+- name: install ffmpeg deps
+  apt: name={{item}} state=present
+  with_items:
+   - build-essential
+   - git-core
+   - checkinstall
+   - yasm
+   - texi2html
+   - libvorbis-dev
+   - libx11-dev
+   - libxfixes-dev
+   - zlib1g-dev
+   - pkg-config
+
+- name: build ffmpeg from source
+  script: build-ffmpeg.sh 
+
+- name: install bbb
+  apt: name=bigbluebutton state=present
